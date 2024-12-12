@@ -25,6 +25,10 @@ def summary(df: pl.DataFrame) -> None:
     print("\nData Shape (rows, columns)")
     print(df.shape)
 
+    print("\nData Types")
+    for col, dtype in zip(df.columns, df.dtypes):
+        print(f"{col}: {dtype}")
+
     print("\nMissing Values")
     print(df.null_count())  # All missing values are stored as null in a pl.DataFrame
 

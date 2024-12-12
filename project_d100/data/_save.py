@@ -6,7 +6,7 @@ import polars as pl
 CLEAN_DATA = Path(__file__).parent.parent.parent / "data" / "clean"
 
 
-def save_parquet(df: pl.DataFrame, name: str):
+def save_parquet(df: pl.DataFrame, name: str) -> None:
     """Saves a polars DataFrame as a parquet file with name `name`.
     Name is cleaned to remove illegal characters and file extensions.
 
