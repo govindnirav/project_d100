@@ -83,3 +83,17 @@ def move_col(df: pl.DataFrame, col_name: str, position: int) -> pl.DataFrame:
     cols.insert(position, col_name)
     df = df.select(cols)
     return df
+
+
+def log_transform(df: pl.DataFrame, var: str) -> pl.DataFrame:
+    """Applies the natural log transformation to a variable in a polars DataFrame.
+
+    Args:
+        df (pl.DataFrame): polars DataFrame
+        var (str): name of varaible to be transformed
+
+    Returns:
+        pl.DataFrame: polars DataFrame
+    """
+    df = df.with_columns((pl.col(var).log10()).alias(f"log_{var}"))
+    return df

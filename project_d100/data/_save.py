@@ -3,7 +3,7 @@ from pathlib import Path
 
 import polars as pl
 
-CLEAN_DATA = Path(__file__).parent.parent.parent / "data" / "clean"
+CLEAN_DATA = Path(__file__).parent.parent.parent / "data" / "cleaned"
 
 
 def save_parquet(df: pl.DataFrame, name: str) -> None:

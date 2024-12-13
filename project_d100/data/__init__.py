@@ -1,4 +1,11 @@
-from ._clean import denormalise, denormalise_temp, extract_day, move_col, ren_year
+from ._clean import (
+    denormalise,
+    denormalise_temp,
+    extract_day,
+    log_transform,
+    move_col,
+    ren_year,
+)
 from ._load_eda import check_sum, load_data, summary
 from ._save import save_parquet
 
@@ -12,4 +19,5 @@ __all__ = [
     "move_col",
     "save_parquet",
     "check_sum",
+    "log_transform",
 ]
