@@ -46,6 +46,27 @@ def denormalise(df: pl.DataFrame, col_name: str, value: float) -> pl.DataFrame:
     return df
 
 
+def denormalise_temp(
+    df: pl.DataFrame, col_name: str, t_max: float, t_min: float
+) -> pl.DataFrame:
+    """Denormalises temperature by multiplying it by a function of t_max and t_min
+        (See additional_info.txt for more details)
+
+    Args:
+        df (pl.DataFrame): polars DataFrame
+        col_name (str): column to be denormalised
+        t_max (float): maximum temperature
+        t_min (float): minimum temperature
+
+    Returns:
+        pl.DataFrame: polars DataFrame
+    """
+    df = df.with_columns(
+        (((pl.col(col_name) * (t_max - t_min)) + t_min)).alias(col_name)
+    )
+    return df
+
+
 def move_col(df: pl.DataFrame, col_name: str, position: int) -> pl.DataFrame:
     """Moves a column to a new position in the DataFrame.
 
@@ -62,23 +83,3 @@ def move_col(df: pl.DataFrame, col_name: str, position: int) -> pl.DataFrame:
     cols.insert(position, col_name)
     df = df.select(cols)
     return df
-
-
-def check_sum(df: pl.DataFrame, sum_var: str, var1: str, var2: str):
-    """Checks if the sum of two variables is equal to the sum variable.
-
-    Args:
-        df (pl.DataFrame): polars DataFrame
-        sum_var (str): variable that is the sum of var1 and var2
-        var1 (str): first variable column
-        var2 (str): second variable column
-
-    Raises:
-        AssertionError: for specific rows if the
-        sum of var1 and var2 is not equal to sum_var
-    """
-    check = df[var1] + df[var2] == df[sum_var]
-
-    failing_rows = df.filter(~check)
-
-    assert check.all(), f"The following rows fail the condition:\n{failing_rows}"
