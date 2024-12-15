@@ -17,7 +17,7 @@ X_train, X_test, y_train, y_test = sample_split(
 
 # %%
 # Classifying predictors
-predictors = [col for col in X_train.columns if col != "instance"]
+predictors = [col for col in X_train.columns if col != "instant"]
 categoricals = [
     "season",
     "yr",
@@ -29,5 +29,3 @@ categoricals = [
     "weathersit",
 ]
 numericals = [col for col in predictors if col not in categoricals]
-
-# %%

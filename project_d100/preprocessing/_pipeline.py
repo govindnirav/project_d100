@@ -4,7 +4,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, SplineTransformer, StandardScaler
 
 
-def pipeline_preprocessing(
+def _pipeline_preprocessing(
     numericals: list[str], categoricals: list[str]
 ) -> ColumnTransformer:
     """Create a pipeline for preprocessing data.
