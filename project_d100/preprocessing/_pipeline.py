@@ -1,7 +1,6 @@
-from feature_engine.outliers import Winsorizer
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, SplineTransformer, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, RobustScaler, SplineTransformer
 
 
 def _pipeline_preprocessing(
@@ -19,14 +18,9 @@ def _pipeline_preprocessing(
     # Numerical pipeline
     num_pipeline = Pipeline(
         steps=[
-            (
-                "winsorizer",
-                Winsorizer(capping_method="quantiles", tail="both", fold=0.01),
-            ),
-            # Prevents outliers from dominating the objective function
-            # Before scaling, to prevent outliers from affecting the mean and variance
-            ("scaler", StandardScaler()),
+            ("scaler", RobustScaler(quantile_range=(1.0, 99.0))),
             # Ensures no feature dominates the objective funtion
+            # Scales robustly to outliers (unlike StandardScaler)
             ("spline", SplineTransformer(include_bias=False, knots="quantile")),
             # Intercept not transformed; knots at quantiles (not uniformly spaced)
             # Prevents overfitting by allowing non-linear relationships
@@ -37,7 +31,14 @@ def _pipeline_preprocessing(
     # Categorical pipeline
     cat_pipeline = Pipeline(
         steps=[
-            ("encoder", OneHotEncoder(drop="first")),
+            (
+                "encoder",
+                OneHotEncoder(
+                    sparse_output=False,
+                    drop="first",
+                    handle_unknown="infrequent_if_exist",
+                ),
+            ),
             # Not necessary if using LightGBM only, but also using GLM
         ]
     )

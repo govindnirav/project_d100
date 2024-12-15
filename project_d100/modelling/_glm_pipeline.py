@@ -17,14 +17,13 @@ def glm_pipeline(numericals: list[str], categoricals: list[str]) -> Pipeline:
     # Preprocessing pipeline
     preprocessor = _pipeline_preprocessing(numericals, categoricals)
     preprocessor.set_output(transform="pandas")
+    # Confirms output is a pandas DataFrame
 
     # GLM model
     # Using Tweedie distribution because target is zero-inflated
     TweedieDist = TweedieDistribution(1.5)
     # Uses a tweedie loss with power 1.5
-    model = GeneralizedLinearRegressor(
-        family=TweedieDist, alpha_search=True, l1_ratio=1, fit_intercept=True
-    )
+    model = GeneralizedLinearRegressor(family=TweedieDist, fit_intercept=True)
     # L1 ratio set to 1 - some features selection occurs
     # Model searches for optimal alpha
 
