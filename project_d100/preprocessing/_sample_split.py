@@ -26,9 +26,9 @@ def sample_split(
         else:
             stratify_col = df[target_var]
 
-    Predictors = df.columns.difference([target_var, "bin"])
+    predictors = [col for col in df.columns if col not in ["target_var", "bin"]]
     X_train, X_test, y_train, y_test = train_test_split(
-        df[Predictors],
+        df[predictors],
         df[target_var],
         train_size=train_size,
         random_state=23,

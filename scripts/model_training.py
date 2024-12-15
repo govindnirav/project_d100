@@ -17,8 +17,8 @@ X_train, X_test, y_train, y_test = sample_split(
 
 # %%
 # Classifying predictors
-Predictors = X_train.columns.difference(["instance"]).tolist()
-Categoricals = [
+predictors = [col for col in X_train.columns if col != "instance"]
+categoricals = [
     "season",
     "yr",
     "mnth",
@@ -28,6 +28,6 @@ Categoricals = [
     "workingday",
     "weathersit",
 ]
-Numericals = [col for col in Predictors if col not in Categoricals]
+numericals = [col for col in predictors if col not in categoricals]
 
 # %%
