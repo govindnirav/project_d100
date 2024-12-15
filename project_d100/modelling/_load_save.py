@@ -8,11 +8,11 @@ MODEL = Path(__file__).parent.parent.parent / "models"
 
 
 def save_model(pipeline: Pipeline, name: str) -> None:
-    """Saves a polars DataFrame as a parquet file with name `name`.
+    """Saves best (tuned) pipeline as .pkl file with name `name`.
     Name is cleaned to remove illegal characters and file extensions.
 
     Args:
-        df (pl.DataFrame): polars DataFrame
+        pipeline (Pipeline): best pipeline
         name (str): name of the file
     """
     clean_name = re.sub(
