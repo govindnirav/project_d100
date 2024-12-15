@@ -31,7 +31,7 @@ def sample_split(
         df[predictors],
         df[target_var],
         train_size=train_size,
-        random_state=23,
+        random_state=42,
         stratify=stratify_col if stratify is not None else None,
     )
     return X_train, X_test, y_train, y_test

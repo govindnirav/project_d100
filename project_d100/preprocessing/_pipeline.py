@@ -19,13 +19,14 @@ def pipeline_preprocessing(
     # Numerical pipeline
     num_pipeline = Pipeline(
         steps=[
-            ("scaler", StandardScaler()),
-            # Ensures no feature dominates the objective funtion
             (
                 "winsorizer",
                 Winsorizer(capping_method="quantiles", tail="both", fold=0.01),
             ),
             # Prevents outliers from dominating the objective function
+            # Before scaling, to prevent outliers from affecting the mean and variance
+            ("scaler", StandardScaler()),
+            # Ensures no feature dominates the objective funtion
             ("spline", SplineTransformer(include_bias=False, knots="quantile")),
             # Intercept not transformed; knots at quantiles (not uniformly spaced)
             # Prevents overfitting by allowing non-linear relationships
