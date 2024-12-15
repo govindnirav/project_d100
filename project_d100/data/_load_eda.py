@@ -1,9 +1,10 @@
 from pathlib import Path
 
+import pandas as pd
 import polars as pl
 
 RAW_DATA = Path(__file__).parent.parent.parent / "data" / "raw" / "hour.csv"
-CLEAN_DATA = Path(__file__).parent.parent.parent / "data" / "clean"
+CLEAN_DATA = Path(__file__).parent.parent.parent / "data" / "cleaned"
 
 
 def load_data() -> pl.DataFrame:
@@ -14,6 +15,18 @@ def load_data() -> pl.DataFrame:
     """
     df = pl.read_csv(RAW_DATA)
     return df
+
+
+def load_parquet(name: str) -> pd.DataFrame:
+    """Loads a parquet file from cleaned data directory
+
+    Args:
+        name (str): name of the file
+
+    Returns:
+        pd.DataFrame: pandas DataFrame
+    """
+    return pd.read_parquet(CLEAN_DATA / name)
 
 
 def summary(df: pl.DataFrame) -> None:
