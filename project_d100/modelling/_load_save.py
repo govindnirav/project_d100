@@ -37,7 +37,7 @@ def load_model(name: str) -> Pipeline:
 
 
 def save_split(
-    X_train: pd.DataFrame, X_test: pd.DataFggrame, y_train: pd.Series, y_test: pd.Series
+    X_train: pd.DataFrame, X_test: pd.DataFrame, y_train: pd.Series, y_test: pd.Series
 ) -> None:
     """Save the train and test sets as .pkl files
 
