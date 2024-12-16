@@ -100,7 +100,6 @@ dependencies:
   - notebook=7.3.1=pyhd8ed1ab_0
   - notebook-shim=0.2.4=pyhd8ed1ab_1
   - numexpr=2.10.2=py311h7469182_0
-  - numpy=2.2.0=py311h4b914e2_0
   - openssl=3.4.0=h39f12f2_0
   - overrides=7.7.0=pyhd8ed1ab_0
   - packaging=24.2=pyhd8ed1ab_2
@@ -182,21 +181,28 @@ dependencies:
       - alembic==1.14.0
       - category-encoders==2.6.4
       - cfgv==3.4.0
+      - click==8.1.7
       - colorlog==6.9.0
       - contourpy==1.3.1
       - coverage==7.6.9
       - cramjam==2.9.1
       - cycler==0.12.1
+      - dython==0.7.8
       - fastparquet==2024.11.0
       - feature-engine==1.8.2
+      - fitter==1.7.1
       - fonttools==4.55.3
       - fsspec==2024.10.0
       - glum==3.1.0
       - imbalanced-learn==0.12.4
       - iniconfig==2.0.0
       - kiwisolver==1.4.7
+      - loguru==0.7.3
       - mako==1.3.8
+      - markdown-it-py==3.0.0
       - matplotlib==3.10.0
+      - mdurl==0.1.2
+      - numpy==1.26.4
       - optuna==4.1.0
       - patsy==1.0.1
       - pillow==11.0.0
@@ -207,6 +213,8 @@ dependencies:
       - pyparsing==3.2.0
       - pytest==8.3.4
       - pytest-cov==6.0.0
+      - rich==13.9.4
+      - rich-click==1.8.5
       - scikit-learn==1.6.0
       - seaborn==0.13.2
       - sqlalchemy==2.0.36

@@ -10,6 +10,7 @@ from ._eda import (
     plot_scatter,
     plot_violin,
 )
+from ._eval import plot_preds_actual
 
 __all__ = [
     "plot_corr",
@@ -22,4 +23,5 @@ __all__ = [
     "plot_kde",
     "plot_violin",
     "plot_scatter",
+    "plot_preds_actual",
 ]
