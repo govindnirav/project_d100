@@ -18,26 +18,28 @@ def evaluate_predictions(
     n_bins: Optional[int] = 10,
 ):
     """Evaluate predictions against actual outcomes.
+        Uses the following metrics:
+        - Mean prediction
+        - Mean outcome
+        - Bias (scaled)
+        - Mean squared error
+        - Root mean squared error
+        - Mean absolute error
+        - Deviance
+        - Gini coefficient
 
-    Parameters
-    ----------
-    df : pd.Dataframe
-        Dataframe used for evaluation
-    outcome_column : str
-        Name of outcome column
-    preds_column : str, optional
-        Name of predictions column, by default None
-    model :
-        Fitted model, by default None
-    tweedie_power : float, optional
-        Power of tweedie distribution for deviance computation, by default 1.5
-    exposure_column : str, optional
-        Name of exposure column, by default None
+    Args:
+        df (pd.DataFrame): pandas DataFrame containing the target variable
+        target_var (str): target variable
+        pipeline (Pipeline): tuned model pipeline
+        train_size (float): proportion of data to use for training
+        stratify (str): column to stratify the training split
+        n_bins (int): number of bins to use for stratification
 
-    Returns
-    -------
-    evals
-        DataFrame containing metrics
+    Returns:
+        pd.DataFrame: evaluation metrics
+        pd.Series: actual outcomes
+        pd.Series: predicted outcomes
     """
 
     evals = {}
@@ -50,29 +52,29 @@ def evaluate_predictions(
         n_bins=n_bins,
     )
 
-    preds = pipeline.predict(X_test)
+    y_preds = pipeline.predict(X_test)
 
-    evals["mean_preds"] = np.average(preds)
+    evals["mean_preds"] = np.average(y_preds)
     evals["mean_outcome"] = np.average(y_test)
     evals["bias"] = (evals["mean_preds"] - evals["mean_outcome"]) / evals[
         "mean_outcome"
     ]
 
-    evals["mse"] = np.average((preds - y_test) ** 2)
+    evals["mse"] = np.average((y_preds - y_test) ** 2)
     evals["rmse"] = np.sqrt(evals["mse"])
-    evals["mae"] = np.average(np.abs(preds - y_test))
-    evals["deviance"] = TweedieDistribution(1.5).deviance(y_test, preds)
-    ordered_samples, cum_actuals = _lorenz_curve(y_test, preds)
+    evals["mae"] = np.average(np.abs(y_preds - y_test))
+    evals["deviance"] = TweedieDistribution(1.5).deviance(y_test, y_preds)
+    ordered_samples, cum_actuals = _calculate_gini(y_test, y_preds)
     evals["gini"] = 1 - 2 * auc(ordered_samples, cum_actuals)
 
-    return pd.DataFrame(evals, index=[0]).T
+    return pd.DataFrame(evals, index=[0]).T, y_test, y_preds
 
 
-def _lorenz_curve(y_true, y_pred):
-    y_true, y_pred = np.asarray(y_true), np.asarray(y_pred)
+def _calculate_gini(y_true, y_preds):
+    y_true, y_preds = np.asarray(y_true), np.asarray(y_preds)
 
     # order samples by increasing predicted risk:
-    ranking = np.argsort(y_pred)
+    ranking = np.argsort(y_preds)
     ranked_y_true = y_true[ranking]
     ranked_pure_premium = y_true[ranking]
     cumulated_cnt = np.cumsum(ranked_pure_premium * ranked_y_true)

@@ -12,12 +12,13 @@ df_all = load_parquet("hours_cleaned.parquet")
 
 # %%
 # Evaluate the GLM model
-evaluate_predictions(
+glm_eval, glm_test, glm_preds = evaluate_predictions(
     df_all, "cnt", glm_best_pipeline, train_size=0.8, stratify="cnt", n_bins=50
 )
 
 # %%
 # Evaluate the LGBM model
-evaluate_predictions(
+lgbm_eval, lgbm_test, lgbm_preds = evaluate_predictions(
     df_all, "cnt", lgbm_best_pipeline, train_size=0.8, stratify="cnt", n_bins=50
 )
+# %%
