@@ -7,6 +7,7 @@ from project_d100.modelling import (
     lgbm_pipeline,
     lgbm_tuning,
     save_model,
+    save_split,
 )
 from project_d100.preprocessing import sample_split
 
@@ -19,6 +20,8 @@ df_all = load_parquet("hours_cleaned.parquet")
 X_train, X_test, y_train, y_test = sample_split(
     df_all, target_var="cnt", train_size=0.8, stratify="cnt", n_bins=50
 )
+# Saving this train test split for later use
+save_split(X_train, X_test, y_train, y_test)
 # Tried to stratify by cnt but too few observations in some classes,
 # so stratified by bin instead
 
