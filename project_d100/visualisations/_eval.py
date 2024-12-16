@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+from project_d100.evaluation import _calculate_lorenz
+
 
 def plot_preds_actual(
     y_test1: np.ndarray | pd.Series,
@@ -13,7 +15,7 @@ def plot_preds_actual(
     model_name2: str,
     axis: tuple[float, float],
 ) -> None:
-    """Plot actual vs predicted outcomes for two models side by side.
+    """Plot actual vs predicted outcomes for two models side by side
 
     Args:
         y_test1 (pd.Series): actual outcomes for model 1
@@ -67,6 +69,49 @@ def plot_preds_actual(
     axes[1].set_title(f"Actual vs Predicted: {model_name2}")
     axes[1].set_xlabel("Predicted")
     axes[1].set_ylabel("Actual")
+
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_lorenz_curve(
+    y_test1: np.ndarray | pd.Series,
+    y_preds1: np.ndarray | pd.Series,
+    model_name1: str,
+    y_test2: np.ndarray | pd.Series,
+    y_preds2: np.ndarray | pd.Series,
+    model_name2: str,
+) -> None:
+    """Plot Lorenz curves for two models superposed
+
+    Args:
+        y_test1 (np.ndarray | pd.Series): actual outcomes for model 1
+        y_preds1 (np.ndarray | pd.Series): predicted outcomes for model 1
+        model_name1 (str): name of the first model
+        y_test2 (np.ndarray | pd.Series): actual outcomes for model 2
+        y_preds2 (np.ndarray | pd.Series): predicted outcomes for model 2
+         model_name2 (str): name of the second model
+    """
+    # Calculate Lorenz curve points for both models
+    ordered_samples1, cum_actuals1 = _calculate_lorenz(y_test1, y_preds1)
+
+    ordered_samples2, cum_actuals2 = _calculate_lorenz(y_test2, y_preds2)
+    # Oracle model
+    ordered_samples3, cum_actuals3 = _calculate_lorenz(y_test1, y_test1)
+
+    # Plot the Lorenz curves
+    plt.figure(figsize=(8, 8))
+    plt.plot(ordered_samples1, cum_actuals1, label=f"{model_name1}", color="blue")
+    plt.plot(ordered_samples2, cum_actuals2, label=f"{model_name2}", color="green")
+    plt.plot(ordered_samples3, cum_actuals3, label="Oracle", color="black")
+    plt.plot([0, 1], [0, 1], linestyle="--", color="red")
+
+    # Plot annotations
+    plt.xlabel("Fraction of \n bike rentals from lowest to highest")
+    plt.ylabel("Fraction of total bike rentals")
+    plt.title("Superposed Lorenz Curves (with Oracle)")
+    plt.legend()
+    plt.grid(True, linestyle="--", alpha=0.5)
 
     plt.tight_layout()
     plt.show()

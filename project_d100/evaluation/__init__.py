@@ -1,3 +1,3 @@
-from ._eval import evaluate_predictions
+from ._eval import _calculate_lorenz, evaluate_predictions
 
-__all__ = ["evaluate_predictions"]
+__all__ = ["evaluate_predictions", "_calculate_lorenz"]

@@ -64,21 +64,34 @@ def evaluate_predictions(
     evals["rmse"] = np.sqrt(evals["mse"])
     evals["mae"] = np.average(np.abs(y_preds - y_test))
     evals["deviance"] = TweedieDistribution(1.5).deviance(y_test, y_preds)
-    ordered_samples, cum_actuals = _calculate_gini(y_test, y_preds)
+    ordered_samples, cum_actuals = _calculate_lorenz(y_test, y_preds)
+    oracle_samples, oracle_actuals = _calculate_lorenz(y_test, y_test)
+    oracle_gini = 1 - 2 * auc(oracle_samples, oracle_actuals)
     evals["gini"] = 1 - 2 * auc(ordered_samples, cum_actuals)
+    evals["normalised_gini"] = evals["gini"] / oracle_gini
 
     return pd.DataFrame(evals, index=[0]).T, y_test, y_preds
 
 
-def _calculate_gini(y_true, y_preds):
+def _calculate_lorenz(y_true, y_preds):
+    """Calculate the Lorenz curve coordinates
+
+    Args:
+        y_true (np.ndarray | pd.Series): actual outcomes
+        y_preds (np.ndarray | pd.Series): predicted outcomes
+
+    Returns:
+        tuple: cumulative share of samples (x-axis),
+               cumulative share of actuals (y-axis)
+    """
     y_true, y_preds = np.asarray(y_true), np.asarray(y_preds)
 
-    # order samples by increasing predicted risk:
     ranking = np.argsort(y_preds)
     ranked_y_true = y_true[ranking]
-    ranked_pure_premium = y_true[ranking]
-    cumulated_cnt = np.cumsum(ranked_pure_premium * ranked_y_true)
+
+    cumulated_cnt = np.cumsum(ranked_y_true)
     cumulated_cnt = cumulated_cnt.astype(float)
-    cumulated_cnt /= cumulated_cnt[-1]
+    cumulated_cnt /= cumulated_cnt[-1]  # Normalize to 1
     cumulated_samples = np.linspace(0, 1, len(cumulated_cnt))
+
     return cumulated_samples, cumulated_cnt
