@@ -10,7 +10,13 @@ from ._eda import (
     plot_scatter,
     plot_violin,
 )
-from ._eval import plot_lorenz_curve, plot_preds_actual
+from ._eval import (
+    plot_lorenz_curve,
+    plot_partial_dependence,
+    plot_preds_actual,
+    plot_shapley,
+    plot_variable_importance,
+)
 
 __all__ = [
     "plot_corr",
@@ -25,4 +31,7 @@ __all__ = [
     "plot_scatter",
     "plot_preds_actual",
     "plot_lorenz_curve",
+    "plot_variable_importance",
+    "plot_partial_dependence",
+    "plot_shapley",
 ]

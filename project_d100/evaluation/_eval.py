@@ -1,21 +1,16 @@
-from typing import Optional
-
 import numpy as np
 import pandas as pd
 from glum import TweedieDistribution
 from sklearn.metrics import auc
 from sklearn.pipeline import Pipeline
 
-from project_d100.preprocessing import sample_split
-
 
 def evaluate_predictions(
     df: pd.DataFrame,
     target_var: str,
     pipeline: Pipeline,
-    train_size: Optional[float] = 0.8,
-    stratify: Optional[str] = None,
-    n_bins: Optional[int] = 10,
+    X_test: pd.DataFrame,
+    y_test: pd.Series,
 ):
     """Evaluate predictions against actual outcomes.
         Uses the following metrics:
@@ -43,14 +38,6 @@ def evaluate_predictions(
     """
 
     evals = {}
-
-    X_train, X_test, y_train, y_test = sample_split(
-        df,
-        target_var=target_var,
-        train_size=train_size,
-        stratify=stratify,
-        n_bins=n_bins,
-    )
 
     y_preds = pipeline.predict(X_test)
 
