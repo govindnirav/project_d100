@@ -34,9 +34,7 @@ def _pipeline_preprocessing(
             (
                 "encoder",
                 OneHotEncoder(
-                    sparse_output=False,
-                    drop="first",
-                    handle_unknown="infrequent_if_exist",
+                    sparse_output=False, drop="first", handle_unknown="ignore"
                 ),
             ),
             # Not necessary if using LightGBM only, but also using GLM
