@@ -1,5 +1,5 @@
 # Final Project for Fundamentals of Data Science (D100) and Research Computing (D400):
-# Predicting Number of Bikes Rented in Washington D.C. (USA)
+Predicting Number of Bikes Rented in Washington D.C. (USA)
 
 **Author:** *3381A*
 
