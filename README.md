@@ -9,6 +9,10 @@ This project/package is created for the joint assessment for the D100 and D400 m
 
 ** All outputs (data, model, visualisations) are provided in the .zip file. All outputs are also prerendered in`scripts/eda_cleaning.ipynb`.
 
+## Report
+
+The report can be found here: `project_d100/report.pdf`
+
 ## Installation
 
 Run the following commands to install the package. Ensure you are in the `project_d100` (parent) directory.
@@ -41,6 +45,11 @@ python scripts/model_training.py
 To obtain evaluation metrics for both the tuned models:
 ```
 python scripts/evaluation.py
+```
+
+To run the test:
+```
+pytest tests/test_standardscaler.py
 ```
 
 ## Outputs
