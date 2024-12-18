@@ -17,6 +17,7 @@ from ._eval import (
     plot_shapley,
     plot_variable_importance,
 )
+from ._save import save_graph
 
 __all__ = [
     "plot_corr",
@@ -34,4 +35,5 @@ __all__ = [
     "plot_variable_importance",
     "plot_partial_dependence",
     "plot_shapley",
+    "save_graph",
 ]

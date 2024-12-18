@@ -28,6 +28,11 @@ pip install -e .
 
 This installation requires conda and pip to be pre-installed.
 
+To use pre-commit hooks:
+```
+pre-commit install
+```
+
 ## Run the package
 
 The package can be run from the command line interface.
@@ -47,6 +52,11 @@ To obtain evaluation metrics for both the tuned models:
 python scripts/evaluation.py
 ```
 
+To obtain visualisations used in the report:
+```
+python scripts/visualisation.py
+```
+
 To run the test:
 ```
 pytest tests/test_standardscaler.py
@@ -56,6 +66,8 @@ pytest tests/test_standardscaler.py
 
 ### Package:
 Source files from package: `project_d100/project_d100`
+
+Simplified reimplementation of scikit-learn StandardScaler: `project_d100/preprocessing/_standardscaler.py`
 
 ### Scripts:
 EDA and Cleaning: `project_d100/scripts/eda_cleaning.ipynb`
