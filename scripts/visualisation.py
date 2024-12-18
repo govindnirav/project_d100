@@ -5,9 +5,10 @@ import polars as pl
 
 from project_d100.data import log_transform
 from project_d100.modelling import glm_pipeline, lgbm_pipeline, load_model, load_split
-from project_d100.visualisations import (  # plot_cramerv,
+from project_d100.visualisations import (
     plot_box,
     plot_count,
+    plot_cramerv,
     plot_histogram,
     save_graph,
 )
@@ -92,7 +93,6 @@ plot_box(
 )
 save_graph(GRAPH_PATH, plt, "box_cnt_day")
 
-
 # Clean Data Plots
 # Hour
 plot_box(
@@ -103,6 +103,10 @@ plot_box(
     title="Boxplot of cnt by hour (whiskers at 0 and 100 percentiles)",
 )
 save_graph(GRAPH_PATH, plt, "box_cnt_hr")
+
+# Cramer's V
+plot_cramerv(df_clean, index_var="instant")
+save_graph(GRAPH_PATH, plt, "cramerv")
 
 # Pipeline Plots
 # %%

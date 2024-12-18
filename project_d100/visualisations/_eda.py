@@ -32,20 +32,41 @@ def plot_corr(df: pl.DataFrame, index_var: str) -> plt.Figure:
     return plt.gcf()
 
 
-def plot_cramerv(df: pl.DataFrame, index_var: str) -> plt.Figure:
-    """Plots a Cramer's V correlation matrix heatmap.
-        Plots Cramer's V instead of Pearson's correlation for categorical variables.
+def plot_cramerv(
+    df: pl.DataFrame,
+    title: Optional[str] = "Cramér's V Correlation Matrix",
+    index_var: Optional[str] = None,
+    figsize: tuple = (10, 8),
+) -> plt.Figure:
+    """
+    Plots a Cramér's V correlation matrix using seaborn heatmap.
 
     Args:
-        df (pl.DataFrame): polars DataFrame
-        index_var (str): index variable
+        df (pl.DataFrame): The polars DataFrame.
+        title (str, optional): Title of the plot.
+        figsize (tuple, optional): Size of the plot (default is (10, 8)).
+        filename (str, optional): File name to save the plot as PNG. If None, it will not be saved.
 
     Returns:
-        plt.Figure: the figure object
+        plt.Figure: The figure object.
     """
-    df = df.drop(index_var)
-    df = df.to_pandas()
-    associations(df, nom_nom_assoc="cramer", figsize=(15, 15))
+    plt.figure(figsize=figsize)
+    df = df.drop(index_var) if index_var else df
+
+    # Calculate the Cramér's V matrix
+    associations_matrix = associations(
+        df.to_pandas(), nom_nom_assoc="cramer", compute_only=True
+    )["corr"]
+
+    # Plot the heatmap
+    sns.heatmap(
+        associations_matrix, annot=True, fmt=".2f", cmap="crest", cbar=True, square=True
+    )
+    plt.xticks(rotation=45)
+
+    plt.title(title, fontsize=12)
+    plt.gca().spines["right"].set_visible(False)  # Remove the right border
+    plt.gca().spines["top"].set_visible(False)  # Remove the top border
 
     return plt.gcf()
 
