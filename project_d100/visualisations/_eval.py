@@ -112,18 +112,20 @@ def plot_lorenz_curve(
     # Oracle model
     ordered_samples3, cum_actuals3 = _calculate_lorenz(y_test1, y_test1)
 
-    plt.figure(figsize=(8, 8))
-    plt.plot(ordered_samples1, cum_actuals1, label=f"{model_name1}", color="green")
-    plt.plot(ordered_samples2, cum_actuals2, label=f"{model_name2}", color="blue")
-    plt.plot(ordered_samples3, cum_actuals3, label="Oracle", color="black")
-    plt.plot([0, 1], [0, 1], linestyle="-", color="red")
+    fig, ax = plt.subplots(figsize=(8, 8))
+    ax.plot(ordered_samples1, cum_actuals1, label=f"{model_name1}", color="green")
+    ax.plot(ordered_samples2, cum_actuals2, label=f"{model_name2}", color="blue")
+    ax.plot(ordered_samples3, cum_actuals3, label="Oracle", color="black")
+    ax.plot([0, 1], [0, 1], linestyle="-", color="red")
 
-    plt.xlabel("Fraction of \n bike rentals from lowest to highest")
-    plt.ylabel("Fraction of total bike rentals")
-    plt.title("Superposed Lorenz Curves (with Oracle)")
-    plt.grid(True, linestyle="--", alpha=0.5)
-    plt.legend()
+    ax.spines["right"].set_visible(False)
+    ax.spines["top"].set_visible(False)
 
+    ax.set_xlabel("Fraction of \n bike rentals from lowest to highest")
+    ax.set_ylabel("Fraction of total bike rentals")
+    ax.set_title("Superposed Lorenz Curves (with Oracle)")
+    ax.grid(True, linestyle="--", alpha=0.5)
+    ax.legend()
     plt.tight_layout()
 
     return plt.gcf()
@@ -151,6 +153,7 @@ def plot_partial_dependence(
     glmexplainer: dx.Explainer,
     features: list[str],
     type: Optional[str] = "partial",
+    title: Optional[str] = None,
 ) -> plt.Figure:
     """Plot partial dependence plots for a model
 
@@ -160,6 +163,7 @@ def plot_partial_dependence(
         features (list): list of features to plot
         type (str, optional): type of plot. Defaults to partial
                               can be "pdp" or "ale"
+        title (str, optional): plot title
 
     """
     lgbm = lgbmexplainer.model_profile(type=type, label="LGBM")
@@ -205,11 +209,3 @@ def plot_shapley(
     plt.title(f"SHAP Summary: {model_name}")
 
     return plt.gcf()
-
-    """
-    if waterfall is True:
-        sample_ind = 0
-        print("\nWaterfall Plot (for one observation)")
-        shap.plots.waterfall(shap_values[sample_ind])
-        plt.show()
-    """

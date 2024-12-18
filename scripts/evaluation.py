@@ -105,7 +105,8 @@ fig4 = plot_partial_dependence(
     glmexplainer=glm_explainer,
     lgbmexplainer=lgbm_explainer,
     features=["hr", "workingday", "temp", "yr", "weathersit"],
-    type="pdp",
+    type="ale",
+    title="Accumulated Local Effect Plots",
 )
 pio.write_image(fig=fig4, file=GRAPH_PATH / "ale.png", format="png", scale=2)
 fig4.show()

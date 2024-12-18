@@ -95,3 +95,6 @@ Tuned model pipelines are stored as .pkl files.
 
 ### Visualisations:
 Visualisations to be used in the report from exploratory and explanatory data analysis, and evaluation: `project_d100/visualisation`
+
+
+**Note:** The package and report is entirely my own work, unless indicated otherwise or mandated by the project description. ChatGPT and GitHub Copilot were used as AI assistants to write the code.
