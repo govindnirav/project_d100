@@ -115,12 +115,12 @@ fig4.show()
 plot_shapley(
     pipeline=glm_best_pipeline, X_test=X_test, max_display=10, model_name="GLM"
 )
-plt.savefig(GRAPH_PATH / "glm_shapely.png", format="png", dpi=300, bbox_inches="tight")
+plt.savefig(GRAPH_PATH / "glm_shaply.png", format="png", dpi=300, bbox_inches="tight")
 plt.show()
 
 plot_shapley(
     pipeline=lgbm_best_pipeline, X_test=X_test, max_display=10, model_name="LGBM"
 )
-plt.savefig(GRAPH_PATH / "lgbm_shapely.png", format="png", dpi=300, bbox_inches="tight")
+plt.savefig(GRAPH_PATH / "lgbm_shaply.png", format="png", dpi=300, bbox_inches="tight")
 plt.show()
 # %%
