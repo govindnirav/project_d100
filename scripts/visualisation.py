@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import polars as pl
 
 from project_d100.data import log_transform
-from project_d100.modelling import glm_pipeline, lgbm_pipeline, load_model, load_split
+from project_d100.modelling import glm_pipeline, lgbm_pipeline, load_split
 from project_d100.visualisations import (
     plot_box,
     plot_count,
@@ -36,9 +36,6 @@ numericals = [col for col in predictors if col not in categoricals]
 
 glm_pipeline = glm_pipeline(numericals, categoricals)
 lgbm_pipeline = lgbm_pipeline(numericals, categoricals)
-
-glm_best_pipeline = load_model("glm_best_pipeline")
-lgbm_best_pipeline = load_model("lgbm_best_pipeline")
 
 # Unclean Data Plots
 
@@ -107,11 +104,3 @@ save_graph(GRAPH_PATH, plt, "box_cnt_hr")
 # Cramer's V
 plot_cramerv(df_clean, index_var="instant")
 save_graph(GRAPH_PATH, plt, "cramerv")
-
-# Pipeline Plots
-# %%
-glm_pipeline
-lgbm_pipeline
-
-# Evaluation Plots
-# %%

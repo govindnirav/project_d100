@@ -96,7 +96,7 @@ def lgbm_tuning(
         param_grid = {
             "model__learning_rate": [0.01, 0.02, 0.03, 0.04, 0.05, 0.1],
             "model__n_estimators": [50, 100, 150, 200],
-            "model__n_leaves": [31, 63, 127, 255],
+            "model__num_leaves": [31, 63, 127, 255],
             "model__min_child_weight": [1, 2, 5, 10],
         }
 
