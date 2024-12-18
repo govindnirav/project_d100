@@ -1,7 +1,10 @@
 # %%
 import warnings
+from pathlib import Path
 
 import dalex as dx
+import matplotlib.pyplot as plt
+import plotly.io as pio
 
 from project_d100.data import load_parquet
 from project_d100.evaluation import evaluate_predictions
@@ -12,11 +15,15 @@ from project_d100.visualisations import (
     plot_preds_actual,
     plot_shapley,
     plot_variable_importance,
+    save_graph,
 )
 
 # %%
 # Mute warnings - neater output
 warnings.filterwarnings("ignore")
+
+# Graph path
+GRAPH_PATH = Path(__file__).parent.parent / "visualisations"
 
 # %%
 # Load the best pipelines
@@ -48,6 +55,8 @@ plot_lorenz_curve(
     lgbm_preds,
     "LGBM",
 )
+save_graph(GRAPH_PATH, plt, "lorenz_curve")
+plt.show()
 
 # %%
 # Compare predictions vs actuals plot for GLM and LGBM
@@ -60,6 +69,8 @@ plot_preds_actual(
     "LGBM",
     axis=(0, 1000),
 )
+save_graph(GRAPH_PATH, plt, "preds_actual")
+plt.show()
 
 # %%
 # GLM and LGBM Dalex Explainers
@@ -68,41 +79,48 @@ glm_explainer = dx.Explainer(glm_best_pipeline, X_test_f, y_test, label="GLM")
 lgbm_explainer = dx.Explainer(lgbm_best_pipeline, X_test_f, y_test, label="LGBM")
 # %%
 # Feature relevance for GLM and LGBM
-plot_variable_importance(explainer=glm_explainer, model_name="GLM")
-# Top 5 features for GLM:
-# hr, yr, atemp, season, weathersit
-plot_variable_importance(explainer=lgbm_explainer, model_name="LGBM")
+fig1 = plot_variable_importance(explainer=glm_explainer, model_name="GLM")
+pio.write_image(fig=fig1, file=GRAPH_PATH / "vi_glm.png", format="png", scale=2)
+fig1.show()
+
+fig2 = plot_variable_importance(explainer=lgbm_explainer, model_name="LGBM")
+pio.write_image(fig=fig2, file=GRAPH_PATH / "vi_lgbm.png", format="png", scale=2)
+fig2.show()
 # Top 5 features for LGBM: *** (not the same as GLM)
 # hr, workingday, temp, yr, weathersit
 
 # %%
 # Partial dependence plots for GLM and LGBM (for top 5 features (LGBM))
-plot_partial_dependence(
+fig3 = plot_partial_dependence(
     glmexplainer=glm_explainer,
     lgbmexplainer=lgbm_explainer,
     features=["hr", "workingday", "temp", "yr", "weathersit"],
     type="pdp",
 )
+pio.write_image(fig=fig3, file=GRAPH_PATH / "pdp.png", format="png", scale=2)
+fig3.show()
 # Many of the pdps are useless because the features are categorical
 
-# %%
-# Just numericals: atemp, temp, windspeed
-plot_partial_dependence(
+fig4 = plot_partial_dependence(
     glmexplainer=glm_explainer,
     lgbmexplainer=lgbm_explainer,
-    features=["atemp", "temp", "windspeed"],
+    features=["hr", "workingday", "temp", "yr", "weathersit"],
     type="pdp",
 )
-plot_partial_dependence(
-    glmexplainer=glm_explainer,
-    lgbmexplainer=lgbm_explainer,
-    features=["atemp", "temp", "windspeed"],
-    type="ale",
-)
-# ALE is better because the features are correlated
+pio.write_image(fig=fig4, file=GRAPH_PATH / "ale.png", format="png", scale=2)
+fig4.show()
 
 # %%
 # Shapeley values for GLM and LGBM
-plot_shapley(pipeline=glm_best_pipeline, X_test=X_test)
-plot_shapley(pipeline=lgbm_best_pipeline, X_test=X_test)
+plot_shapley(
+    pipeline=glm_best_pipeline, X_test=X_test, max_display=10, model_name="GLM"
+)
+plt.savefig(GRAPH_PATH / "glm_shapely.png", format="png", dpi=300, bbox_inches="tight")
+plt.show()
+
+plot_shapley(
+    pipeline=lgbm_best_pipeline, X_test=X_test, max_display=10, model_name="LGBM"
+)
+plt.savefig(GRAPH_PATH / "lgbm_shapely.png", format="png", dpi=300, bbox_inches="tight")
+plt.show()
 # %%
