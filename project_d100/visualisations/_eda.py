@@ -269,7 +269,7 @@ def plot_histogram(
     ylabel: str = "Frequency",
     ax: Optional[plt.Axes] = None,
     fontsize: Optional[int] = 12,
-) -> None:
+) -> plt.Axes:
     """Plots a histogram using seaborn for visualization and polars for data handling.
 
     Args:
@@ -280,6 +280,9 @@ def plot_histogram(
         xlabel (str): x-axis label
         ylabel (str): y-axis label
         ax (plt.Axes): Matplotlib axis object for subplots
+
+    Returns:
+    - plt.Axes: the axis object
     """
     if ax is None:
         fig, ax = plt.subplots(figsize=(10, 8))
