@@ -67,6 +67,8 @@ pytest tests/test_standardscaler.py
 ### Package:
 Source files from package: `project_d100/project_d100`
 
+Simplified reimplementation of scikit-learn StandardScaler: `project_d100/preprocessing/_standardscaler.py`
+
 ### Scripts:
 EDA and Cleaning: `project_d100/scripts/eda_cleaning.ipynb`
 
