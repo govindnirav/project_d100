@@ -28,6 +28,11 @@ pip install -e .
 
 This installation requires conda and pip to be pre-installed.
 
+To use pre-commit hooks:
+```
+pre-commit install
+```
+
 ## Run the package
 
 The package can be run from the command line interface.
@@ -45,6 +50,11 @@ python scripts/model_training.py
 To obtain evaluation metrics for both the tuned models:
 ```
 python scripts/evaluation.py
+```
+
+To obtain visualisations used in the report:
+```
+python scripts/visualisation.py
 ```
 
 To run the test:

@@ -12,7 +12,7 @@ def glm_tuning(
     pipeline: Pipeline,
     param_grid: Optional[dict[str, list]] = None,
     search: Optional[str] = "random",
-    n_iter: Optional[int] = 10,
+    n_iter: Optional[int] = 20,
 ) -> Pipeline:
     """Tune a GLM model using cv search
 
@@ -43,7 +43,7 @@ def glm_tuning(
             pipeline,
             param_grid,
             cv=5,
-            n_jobs=1,  # Use all available cores
+            n_jobs=1,
             scoring="neg_mean_squared_error",
         )
     elif search == "random":
@@ -76,7 +76,7 @@ def lgbm_tuning(
     pipeline: Pipeline,
     param_grid: Optional[dict[str, list]] = None,
     search: Optional[str] = "random",
-    n_iter: Optional[int] = 10,
+    n_iter: Optional[int] = 20,
 ) -> Pipeline:
     """Tune a LGBM model using cv search
 
