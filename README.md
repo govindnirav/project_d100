@@ -59,7 +59,7 @@ python scripts/visualisation.py
 
 To run the test:
 ```
-pytest tests/test_standardscaler.py
+pytest tests/preprocessing/test_standardscaler.py
 ```
 
 ## Outputs
