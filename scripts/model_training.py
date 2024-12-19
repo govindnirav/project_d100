@@ -1,5 +1,7 @@
 # %%
 # Loading packages
+import warnings
+
 from project_d100.data import load_parquet
 from project_d100.modelling import (
     glm_pipeline,
@@ -10,6 +12,10 @@ from project_d100.modelling import (
     save_split,
 )
 from project_d100.preprocessing import sample_split
+
+# %%
+# Ignoring FutureWarnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 # %%
 # Loading the cleaned data
