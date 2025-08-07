@@ -5,7 +5,7 @@ Predicting Number of Bikes Rented in Washington D.C. (USA)
 
 The `project_d100` package uses GLM and LGBM models to predict the number of bikes rented in a bike-sharing rental process.
 
-This project/package is created for the joint assessment for the D100 and D400 modules, from the MPhil in Economics and Data Science at the University of Cambridge.
+This project/package is created for the joint assessment for the D100 and D400 modules (grade received: 79% - Distinction), from the MPhil in Economics and Data Science at the University of Cambridge. 
 
 ** All outputs (data, model, visualisations) are provided in the .zip file. All outputs are also prerendered in`scripts/eda_cleaning.ipynb`.
 
